@@ -6,6 +6,7 @@ from cachetools import cached, TTLCache
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi import FastAPI, UploadFile, File, HTTPException, Request, Depends
+import copy
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
@@ -64,6 +65,7 @@ async def update_tags(request: Request):
     df['aspect'] = updated_aspects
     df['sentiment'] = updated_sentiments
     df.to_excel('output.xlsx', index=False)
+    uploaded_df = df.copy()
     return templates.TemplateResponse("index.html", {"request": request, "tags": df.to_dict('records')})
 
 
