@@ -40,6 +40,8 @@ Make sure to not block the API
 FastAPI fully supports the asyncio library, which enables non-blocking and asynchronous operations. This allows you to efficiently handle large file uploads and downloads without blocking other requests or causing performance issues. You can leverage the asyncio framework and its libraries, such as aiofiles or aiohttp, to handle file operations asynchronously.
 
 
+To start the project clone the code and start the server by running** python main.py**
+
 
 
 
