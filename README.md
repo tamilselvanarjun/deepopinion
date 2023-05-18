@@ -1,5 +1,6 @@
-# deepopinion
-This project allows user to upload the files of training data and label it accorindgly . Also user has able to download the data from api.
+Deepopinion
+
+This project allows user to upload the files of training data for ML model and label it. Also user has able to download the data from api post uploading.
 
 This project is implemented user FastAPI() framework. Below is the list of available API's:
 
@@ -36,6 +37,7 @@ http://127.0.0.1:8000/sentiments
 It will download the data and put that into XLSX file
 
 Considerations:
+
 When dealing with large files and the need for caching to improve latency and throughput, a Python framework like Django or Flask can be suitable. However, considering the specific requirements, The input files can be very big (more than 1 GB). Having a solution that handles such large files is a plus. handling large files efficiently might require additional considerations. In such cases, a framework like FastAPI can be a good choice. Here's why:
 
 Performance: FastAPI is built on top of Starlette, an asynchronous web framework. Its async capabilities allow for handling multiple requests concurrently, resulting in higher performance and better scalability compared to the synchronous nature of Django and Flask. This is particularly beneficial when implementing caching, as it enables efficient utilization of caching mechanisms and reduces latency.
@@ -44,6 +46,8 @@ Make sure to not block the API
 
 FastAPI fully supports the asyncio library, which enables non-blocking and asynchronous operations. This allows you to efficiently handle large file uploads and downloads without blocking other requests or causing performance issues. You can leverage the asyncio framework and its libraries, such as aiofiles or aiohttp, to handle file operations asynchronously.
 
+Upon file uploading the file and the remaining api's will start to work. Because we need to initial data that is coming file upload api.
+Also we can integrate this with Database and show the values from the database as next step. 
 
 To start the uvicorn server please run python main.py in terminal. it will start the local server http://127.0.0.1:8000/
 
