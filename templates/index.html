@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Tags</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .scrollable-table {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <form action="/home" method="post">
+        <div class="scrollable-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Text</th>
+                        <th>Aspect</th>
+                        <th>Sentiment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tag in tags %}
+                    <tr>
+                        <td>{{ tag.text }}</td>
+                        <td><input type="text" name="aspect" value="{{ tag.aspect }}"></td>
+                        <td><input type="text" name="sentiment" value="{{ tag.sentiment }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
