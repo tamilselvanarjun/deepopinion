@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException, Request
 import pandas as pd
+import uvicorn
 from fastapi.responses import HTMLResponse
 import io
 from fastapi.templating import Jinja2Templates
@@ -37,10 +38,9 @@ async def upload_file(file: UploadFile = File(...)):
         content += chunk
     #content = await file.read()
     df = pd.read_excel(io.BytesIO(content), engine='openpyxl')
-    print(df.head(100))
     uploaded_df = df.copy()
     uploaded_df.to_excel('output.xlsx', index = False)
-    return {"filename": file.filename, "dataframe": df.to_html()}
+    return {"status": 'Successfully uploaded'}
 
 
 
@@ -105,7 +105,6 @@ def download_csv():
     global uploaded_df
     if uploaded_df is None:
         raise HTTPException(status_code=404, detail="No data available. Upload a file first.")
-
     csv_filename = "data.csv"
     uploaded_df.to_csv(csv_filename, index=False)
     return FileResponse(csv_filename, filename="data.csv", media_type="text/csv")
@@ -123,3 +122,7 @@ def download_excel():
     excel_filename = "data.xlsx"
     uploaded_df.to_excel(excel_filename, index=False)
     return FileResponse(excel_filename, filename="data.xlsx", media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8000)
