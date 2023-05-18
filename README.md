@@ -49,6 +49,8 @@ FastAPI fully supports the asyncio library, which enables non-blocking and async
 Upon file uploading the file and the remaining api's will start to work. Because we need to initial data that is coming file upload api.
 Also we can integrate this with Database and show the values from the database as next step. 
 
+test.csv and test.xlsx are sample test files.
+
 To start the uvicorn server please run python main.py in terminal. it will start the local server http://127.0.0.1:8000/
 
 

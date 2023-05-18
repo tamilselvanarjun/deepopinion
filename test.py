@@ -4,6 +4,24 @@ from main import app
 import pandas as pd
 client = TestClient(app)
 
+#test cases should be run upon starting the server
+def test_download_excel_no_data():
+    # Set uploaded_df to None or empty dataframe
+    uploaded_df = None
+    response = client.get("/download_excel")
+    # Check response status code and content
+    assert response.status_code == 404
+    assert response.json() == {"detail": "No data available. Upload a file first."}
+
+
+def test_download_csv_no_data():
+    # Set uploaded_df to None or empty dataframe
+    uploaded_df = None
+    response = client.get("/download_csv")
+    # Check response status code and content
+    assert response.status_code == 404
+    assert response.json() == {"detail": "No data available. Upload a file first."}
+
 def test_upload_excel_file():
     # Prepare test file
     global file_path
@@ -53,3 +71,4 @@ def test_download_xlsx():
     #assert response.headers["content-type"] == 'application/json'
 
 # Add more test cases for other endpoints as needed
+
