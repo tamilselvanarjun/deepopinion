@@ -1,6 +1,7 @@
 Deepopinion
 
 This project help user to upload the of training data for ML model and label it. Also user has able to download the data from api post uploading.
+Code is developed using Python 3.9.6.
 
 This project is implemented user FastAPI() framework. Below is the list of available API's:
 
