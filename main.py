@@ -8,7 +8,6 @@ from fastapi.responses import FileResponse
 import json
 from cachetools import cached, TTLCache
 from fastapi import Depends
-from async_lru import alru_cache
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
@@ -18,8 +17,7 @@ df = pd.DataFrame()  # Initialize an empty DataFrame
 
 # Configure the cache with a maximum size of 100 and a time-to-live (TTL) of 600 seconds (10 minutes)
 cache = TTLCache(maxsize=100, ttl=600)
-# Configure the cache with a maximum size of 100 and a time-to-live (TTL) of 600 seconds (10 minutes)
-a_cache = alru_cache(maxsize=100, ttl=600)
+
 
 @app.post("/fileupload")
 async def upload_file(file: UploadFile = File(...)): 
@@ -36,8 +34,10 @@ async def upload_file(file: UploadFile = File(...)):
         if not chunk:
             break
         content += chunk
-    #content = await file.read()
-    df = pd.read_excel(io.BytesIO(content), engine='openpyxl')
+    if ext.lower() == '.xlsx':
+        df = pd.read_excel(io.BytesIO(content), engine='openpyxl')
+    else:
+        df = pd.read_csv(io.BytesIO(content))
     uploaded_df = df.copy()
     uploaded_df.to_excel('output.xlsx', index = False)
     return {"status": 'Successfully uploaded'}
