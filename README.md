@@ -2,10 +2,13 @@
 
 
  
+![image](https://github.com/arjunlimat/deepopinion/assets/42732673/4978e88d-fb90-4205-8fb5-52f53736ac17)
 
 Sample User Upload File:
 As per the given JSON request for single input text can have more than 1 tag. So Below is the sample user upload file.
- 
+
+![image](https://github.com/arjunlimat/deepopinion/assets/42732673/3eb8663b-44de-4f0e-9939-afa49e82dc64)
+
 
 http://127.0.0.1:8000/fileupload
 Takes .xlsx or .csv file as input and store that into the local drive. But this can be changed and inserted into the database. Incase file size is large this will be processed as chunk by chunk in the code. This is handled in code.
@@ -14,7 +17,8 @@ http://127.0.0.1:8000/home
 This will display the list of data that the user has uploaded. Users can able to change a tag
 by changing either the aspect or a sentiment (or both). Upon clicking on Submit button these data will be stored in the local drive. 
 
- 
+ ![image](https://github.com/arjunlimat/deepopinion/assets/42732673/f65470bf-23c3-496a-a30d-93d7a3f6bc7d)
+
 
 http://127.0.0.1:8000/aspects
 It will fetch the all unique aspects from the file. Once we integrate with the database it will be fetched from the database.
