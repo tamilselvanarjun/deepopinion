@@ -20,7 +20,7 @@ Takes .xlsx or .csv file as input and store that into the local drive. But this 
 
 http://127.0.0.1:8000/home
 This will display the list of data that the user has uploaded. Users can able to change a tag
-by changing either the aspect or a sentiment (or both). Upon clicking on Submit button these data will be stored in the local drive. 
+by changing either the aspect or a sentiment (or both). Upon clicking on Submit button these data will be stored in the local drive by a post api (http://127.0.0.1:8000/home). 
 
  ![image](https://github.com/arjunlimat/deepopinion/assets/42732673/188dd8e4-54be-48c4-923d-fd35909348dd)
 
