@@ -1,6 +1,6 @@
 Deepopinion
 
-This project allows user to upload the files of training data for ML model and label it. Also user has able to download the data from api post uploading.
+This project help user to upload the of training data for ML model and label it. Also user has able to download the data from api post uploading.
 
 This project is implemented user FastAPI() framework. Below is the list of available API's:
 
@@ -52,6 +52,17 @@ Also we can integrate this with Database and show the values from the database a
 test.csv and test.xlsx are sample test files.
 
 To start the uvicorn server please run python main.py in terminal. it will start the local server http://127.0.0.1:8000/
+
+Next step of actions:
+
+----Integrating with database whenever user uploads we will store all the data into database
+----Interating database fields with UI.
+----Interating download apis to fetch data from database
+----Setting up App service
+----Setting postgres DB in server
+----Testing locally
+----Deploy to App Service
+----Test and Monitor
 
 
 
