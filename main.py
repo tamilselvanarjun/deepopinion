@@ -1,13 +1,11 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, Request
 import pandas as pd
 import uvicorn
-from fastapi.responses import HTMLResponse
 import io
-from fastapi.templating import Jinja2Templates
-from fastapi.responses import FileResponse
 import json
 from cachetools import cached, TTLCache
-from fastapi import Depends
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse, FileResponse
+from fastapi import FastAPI, UploadFile, File, HTTPException, Request, Depends
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
@@ -39,7 +37,6 @@ async def upload_file(file: UploadFile = File(...)):
     else:
         df = pd.read_csv(io.BytesIO(content))
     uploaded_df = df.copy()
-    uploaded_df.to_excel('output.xlsx', index = False)
     return {"status": 'Successfully uploaded'}
 
 
@@ -118,10 +115,9 @@ def download_excel():
     global uploaded_df
     if uploaded_df is None:
         raise HTTPException(status_code=404, detail="No data available. Upload a file first.")
-
     excel_filename = "data.xlsx"
-    uploaded_df.to_excel(excel_filename, index=False)
-    return FileResponse(excel_filename, filename="data.xlsx", media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    uploaded_df.to_excel(excel_filename, index = False)
+    return FileResponse(excel_filename, filename= "data.xlsx", media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 
 if __name__ == "__main__":
