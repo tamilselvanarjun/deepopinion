@@ -56,12 +56,19 @@ To start the uvicorn server please run python main.py in terminal. it will start
 Next step of actions:
 
 ----Integrating with database whenever user uploads we will store all the data into database
+
 ----Interating database fields with UI.
+
 ----Interating download apis to fetch data from database
+
 ----Setting up App service
+
 ----Setting postgres DB in server
+
 ----Testing locally
+
 ----Deploy to App Service
+
 ----Test and Monitor
 
 
