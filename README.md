@@ -1,6 +1,4 @@
-# deepopinion
-
-
+This is deepopinion project will read the input from file and preprocess the data and provide the labeled data to ML model.
  
 ![image](https://github.com/arjunlimat/deepopinion/assets/42732673/4978e88d-fb90-4205-8fb5-52f53736ac17)
 
