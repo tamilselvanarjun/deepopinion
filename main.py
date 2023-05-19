@@ -7,6 +7,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi import FastAPI, UploadFile, File, HTTPException, Request, Depends
 import copy
+
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
@@ -19,11 +20,14 @@ cache = TTLCache(maxsize=100, ttl=600)
 
 
 @app.post("/fileupload")
-async def upload_file(file: UploadFile = File(...)): 
-    allowed_extensions = ('.csv', '.xlsx')
-    ext = '.' + file.filename.split('.')[-1]
+async def upload_file(file: UploadFile = File(...)):
+    allowed_extensions = (".csv", ".xlsx")
+    ext = "." + file.filename.split(".")[-1]
     if ext.lower() not in allowed_extensions:
-        raise HTTPException(status_code=400, detail="Invalid file extension. Only CSV and XLSX files are allowed.")
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid file extension. Only CSV and XLSX files are allowed.",
+        )
     global uploaded_df
     # Process the file in chunks
     CHUNK_SIZE = 1024 * 1024  # 1 MB chunk size (adjust as needed)
@@ -33,13 +37,12 @@ async def upload_file(file: UploadFile = File(...)):
         if not chunk:
             break
         content += chunk
-    if ext.lower() == '.xlsx':
-        df = pd.read_excel(io.BytesIO(content), engine='openpyxl')
+    if ext.lower() == ".xlsx":
+        df = pd.read_excel(io.BytesIO(content), engine="openpyxl")
     else:
         df = pd.read_csv(io.BytesIO(content))
     uploaded_df = df.copy()
-    return {"status": 'Successfully uploaded'}
-
+    return {"status": "Successfully uploaded"}
 
 
 @app.get("/home")
@@ -48,7 +51,7 @@ def edit_tags(request: Request):
     @cached(cache)  # Apply caching to this endpoint
     def get_data():
         data = uploaded_df
-        return data.to_dict('records')
+        return data.to_dict("records")
 
     tags = get_data()
     return templates.TemplateResponse("index.html", {"request": request, "tags": tags})
@@ -58,19 +61,22 @@ def edit_tags(request: Request):
 async def update_tags(request: Request):
     df = pd.DataFrame()
     form_data = await request.form()
-    #text = form_data.getlist('text')
-    updated_aspects = form_data.getlist('aspect')
-    updated_sentiments = form_data.getlist('sentiment')
-    df['text'] = uploaded_df['text']
-    df['aspect'] = updated_aspects
-    df['sentiment'] = updated_sentiments
-    df.to_excel('output.xlsx', index=False)
+    # text = form_data.getlist('text')
+    updated_aspects = form_data.getlist("aspect")
+    updated_sentiments = form_data.getlist("sentiment")
+    df["text"] = uploaded_df["text"]
+    df["aspect"] = updated_aspects
+    df["sentiment"] = updated_sentiments
+    df.to_excel("output.xlsx", index=False)
     uploaded_df = df.copy()
-    return templates.TemplateResponse("index.html", {"request": request, "tags": df.to_dict('records')})
+    return templates.TemplateResponse(
+        "index.html", {"request": request, "tags": df.to_dict("records")}
+    )
 
 
 all_aspects = set()
 all_sentiments = set()
+
 
 @app.on_event("startup")
 async def load_data():
@@ -78,6 +84,7 @@ async def load_data():
     if uploaded_df is not None:
         all_aspects = set(uploaded_df["aspect"].unique())
         all_sentiments = set(uploaded_df["sentiment"].unique())
+
 
 @app.get("/aspects")
 @cached(cache)  # Apply caching to this endpoint
@@ -87,6 +94,7 @@ def get_all_aspects(aspects: set = Depends(load_data)):
     """
     return {"aspects": list(all_aspects)}
 
+
 @app.get("/sentiments")
 @cached(cache)  # Apply caching to this endpoint
 def get_all_sentiments(sentiments: set = Depends(load_data)):
@@ -95,6 +103,7 @@ def get_all_sentiments(sentiments: set = Depends(load_data)):
     """
     return {"sentiments": list(all_sentiments)}
 
+
 @app.get("/download_csv")
 def download_csv():
     """
@@ -102,10 +111,13 @@ def download_csv():
     """
     global uploaded_df
     if uploaded_df is None:
-        raise HTTPException(status_code=404, detail="No data available. Upload a file first.")
+        raise HTTPException(
+            status_code=404, detail="No data available. Upload a file first."
+        )
     csv_filename = "data.csv"
     uploaded_df.to_csv(csv_filename, index=False)
     return FileResponse(csv_filename, filename="data.csv", media_type="text/csv")
+
 
 @app.get("/download_excel")
 def download_excel():
@@ -114,10 +126,16 @@ def download_excel():
     """
     global uploaded_df
     if uploaded_df is None:
-        raise HTTPException(status_code=404, detail="No data available. Upload a file first.")
+        raise HTTPException(
+            status_code=404, detail="No data available. Upload a file first."
+        )
     excel_filename = "data.xlsx"
-    uploaded_df.to_excel(excel_filename, index = False)
-    return FileResponse(excel_filename, filename= "data.xlsx", media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    uploaded_df.to_excel(excel_filename, index=False)
+    return FileResponse(
+        excel_filename,
+        filename="data.xlsx",
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
 
 
 if __name__ == "__main__":
