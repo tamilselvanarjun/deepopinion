@@ -96,7 +96,6 @@ def get_all_sentiments(sentiments: set = Depends(load_data)):
     return {"sentiments": list(all_sentiments)}
 
 @app.get("/download_csv")
-@cached(cache)  # Apply caching to this endpoint
 def download_csv():
     """
     Download the data as a CSV file.
@@ -109,7 +108,6 @@ def download_csv():
     return FileResponse(csv_filename, filename="data.csv", media_type="text/csv")
 
 @app.get("/download_excel")
-@cached(cache)  # Apply caching to this endpoint
 def download_excel():
     """
     Download the data as an Excel file (XLSX format).
